@@ -67,7 +67,7 @@ const updateOrderStatus = async (req, res) => {
         { new: true }
     )
 
-    res.status(200).json({order})
+    res.status(200).json({success: true, order})
 }
 
 
