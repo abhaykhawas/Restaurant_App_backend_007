@@ -52,10 +52,11 @@ const login = async (req, res) => {
             })
         }
 
-        const token = jwt.sign({id: user._id, role: user.role}, "anewsecret", {expiresIn: '5h'})
+        const token = jwt.sign({id: user._id, role: user.role}, "anewsecret", {expiresIn: '2h'})
 
         return res.status(200).json({
-            token
+            token,
+            role : user.role
         })
     }
     catch(err){
