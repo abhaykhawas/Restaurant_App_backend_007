@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const authRoutes = require('./Routes/authRoute')
 const menuRoutes = require('./Routes/menuRoute')
 const orderRoutes = require('./Routes/orderRoute')
+const paymentRoutes = require('./Routes/paymentRoute')
 require('dotenv').config()
 const cors = require('cors')
 const connectDB = require('./config/db')
@@ -27,6 +28,7 @@ app.use('/api/v1/menu', menuRoutes)
 
 app.use('/api/v1/order', orderRoutes)
 
+app.use('/api/v1/payment', paymentRoutes)
 // app.get('/token', async (req, res) => {
 //     let data = {
 //         "email" : 'cool.com',
