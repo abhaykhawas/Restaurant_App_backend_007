@@ -7,6 +7,7 @@ const paymentRoutes = require('./Routes/paymentRoute')
 require('dotenv').config()
 const cors = require('cors')
 const connectDB = require('./config/db')
+const cookieParser = require('cookie-parser')
 
 const app = express()
 
@@ -14,13 +15,21 @@ app.use(cors())
 
 app.use(express.json())
 
+app.use(cookieParser())
+
 
 app.get('/', (req, res) => {
+    console.log(req.cookies)
+    let views = req.cookies?.views ? parseInt(req.cookies?.views) : 0
+    views += 1
+    res.cookie("views", views, {maxAge: 24 * 60 * 60 * 1000})
     res.status(200).json({
         success: true,
-        message: "On root page"
+        message: "On root page",
+        views
     })
 })
+
 
 app.use('/api/v1/auth', authRoutes)
 

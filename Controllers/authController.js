@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../Models/User')
+const bcrypt = require('bcrypt')
 
 
 // Registering a new user as a customer
@@ -16,8 +17,11 @@ const register = async (req, res) => {
             })
         }
 
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
+
         // Saves new user in DB
-        user = await User({name, email, password, role }).save()
+        user = await User({name, email, password:hashedPassword, role }).save()
 
         res.status(201).json({
             success: true,
@@ -44,8 +48,8 @@ const login = async (req, res) => {
                 message: 'User not found'
             })
         }
-
-        if(user.password !== password) {
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch) {
             return res.status(400).json({
                 success: false,
                 message: 'Password is wrong'
